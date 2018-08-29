@@ -1,0 +1,8 @@
+spring:
+  profiles: prod
+  freemarker:
+    template-loader-path: classpath:/static/
+    cache: false
+    suffix: .html
+server:
+  port: 8082
