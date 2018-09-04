@@ -3,6 +3,7 @@ package com.wei.eduyang.controller;
 import com.wei.eduyang.bean.ResultEntity;
 import com.wei.eduyang.domain.Test;
 import com.wei.eduyang.mapper.TestMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,28 @@ public class IndexController {
     public ResultEntity login (HttpServletRequest request, HttpServletResponse response){
         ResultEntity resultEntity = new ResultEntity();
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("userName"));
-        session.setAttribute("userName","weiyanan");
-
+        String userName = (String) session.getAttribute("userName");
+        if (StringUtils.isBlank(userName)){
+            session.setAttribute("userName","weiyanan");
+        }else{
+            System.out.println(userName);
+        }
         resultEntity.setReturnCode(ResultEntity.SUCCESS);
+        return resultEntity;
+    }
+
+    @GetMapping("hasLogin")
+    public ResultEntity hasLogin (HttpServletRequest request, HttpServletResponse response){
+        ResultEntity resultEntity = new ResultEntity();
+        HttpSession session = request.getSession();
+        String userName = (String) session.getAttribute("userName");
+        if (StringUtils.isBlank(userName)){
+            resultEntity.setReturnCode(ResultEntity.ERROR);
+        }else{
+            System.out.println(userName);
+            resultEntity.setReturnCode(ResultEntity.SUCCESS);
+        }
+
         return resultEntity;
     }
 }
