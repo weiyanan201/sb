@@ -45,8 +45,8 @@ public class IndexController {
         return resultEntity;
     }
 
-    @GetMapping("hasLogin")
-    public ResultEntity hasLogin (HttpServletRequest request, HttpServletResponse response){
+    @GetMapping("checkLogin")
+    public ResultEntity checkLogin (HttpServletRequest request, HttpServletResponse response){
         ResultEntity resultEntity = new ResultEntity();
         HttpSession session = request.getSession();
         String userName = (String) session.getAttribute("userName");

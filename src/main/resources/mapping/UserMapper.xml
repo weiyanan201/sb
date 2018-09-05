@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wei.eduyang.mapper.UserMapper">
+
+    <resultMap id="User" type="com.wei.eduyang.domain.User">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userDesc" column="user_desc"/>
+        <result property="password" column="password"/>
+        <result property="userType" column="user_type"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="company" column="company"/>
+
+    </resultMap>
+
+    <select id="findUserByName" parameterType="String" resultMap="User">
+		select * from user where user_name=#{userName}
+	</select>
+
+</mapper>
