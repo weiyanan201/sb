@@ -2,8 +2,7 @@ package com.wei.eduyang.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wei.eduyang.bean.ResultEntity;
-import com.wei.eduyang.domain.Test;
-import com.wei.eduyang.mapper.TestMapper;
+import com.wei.eduyang.exception.SessionExpiredExcption;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,6 +10,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,15 +26,12 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class IndexController {
 
-    @Autowired
-    private TestMapper testMapper;
+    private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @RequestMapping("/")
     public String home(ModelMap map){
         map.put("username","weiyanan");
         map.put("role","admin");
-        Test test = testMapper.selectByPrimaryKey(1);
-        System.out.println(test);
         return "index";
     }
 
@@ -68,19 +66,22 @@ public class IndexController {
         ResultEntity resultEntity = new ResultEntity();
 
         Subject subject = SecurityUtils.getSubject();
-        System.out.println(subject.getPrincipal());
-
-        HttpSession session = request.getSession();
-        System.out.println(session.getMaxInactiveInterval());
-        String userName = (String) session.getAttribute("userName");
-        if (StringUtils.isBlank(userName)){
-            resultEntity.setReturnCode(ResultEntity.ERROR);
-        }else{
-            System.out.println(userName);
-            resultEntity.setReturnCode(ResultEntity.SUCCESS);
-        }
-        System.out.println(session.getAttribute("userName"));
-
+        logger.info("subject " + subject);
+        String host = subject.getSession().getHost();
+        logger.info("subject.host ： " + host);
         return resultEntity;
+    }
+
+    @RequestMapping("/test")
+    public String test(int age) throws Exception {
+        logger.info("hello world ",age);
+        logger.error("hello error");
+        createException();
+        return "我是正常的";
+    }
+
+    private void createException() throws Exception {
+        int i = 1/0;
+        System.out.println(i);
     }
 }
