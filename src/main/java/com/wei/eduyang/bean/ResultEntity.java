@@ -10,7 +10,7 @@ public class ResultEntity {
     private Object data;
 
     public ResultEntity(){
-        this.returnCode = ERROR;
+        this.returnCode = SUCCESS;
         this.returnMessage = "";
         this.data = null;
     }

@@ -1,6 +1,5 @@
 package com.wei.eduyang.config;
 
-import com.wei.eduyang.exception.SessionExpiredExcption;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.slf4j.Logger;
