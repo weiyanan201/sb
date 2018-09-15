@@ -41,7 +41,6 @@ public class LoginController {
         try {
             subject.login(token);
             jsonObject.put("token", subject.getSession().getId());
-            jsonObject.put("msg", "登录成功");
         } catch (IncorrectCredentialsException e) {
             jsonObject.put("msg", "密码错误");
         } catch (LockedAccountException e) {
@@ -49,8 +48,9 @@ public class LoginController {
         } catch (AuthenticationException e) {
             jsonObject.put("msg", "该用户不存在");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
+        resultEntity.setData(jsonObject);
         return resultEntity;
     }
 
