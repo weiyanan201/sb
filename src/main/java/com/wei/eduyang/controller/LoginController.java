@@ -29,6 +29,20 @@ public class LoginController {
         return "index";
     }
 
+    @RequestMapping("/index")
+    public String index(ModelMap map){
+        return "index";
+    }
+
+    @RequestMapping("/login")
+    public String page1(ModelMap map){
+        return "login";
+    }
+
+    @RequestMapping("/page2")
+    public String page2(ModelMap map){
+        return "page2";
+    }
 
     @PostMapping("login")
     @ResponseBody
