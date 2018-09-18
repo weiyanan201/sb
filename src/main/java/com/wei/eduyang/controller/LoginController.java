@@ -25,29 +25,28 @@ public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping("/")
-    public String home(ModelMap map){
-        return "index";
-    }
-
-    @RequestMapping("/index")
-    public String index(ModelMap map){
-        return "index";
+    public String home(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()){
+            return "index";
+        }else{
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping("/login")
-    public String page1(ModelMap map){
-        return "login";
-    }
-
-    @RequestMapping("/page2")
-    public String page2(ModelMap map){
-        return "page2";
+    public String page1(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()){
+            return "redirect:/";
+        }else{
+            return "login";
+        }
     }
 
     @PostMapping("login")
     @ResponseBody
     public ResultEntity login (HttpServletRequest request,String userName,String password){
-        System.out.println(userName+" : "+password);
         ResultEntity resultEntity = new ResultEntity();
         JSONObject jsonObject = new JSONObject();
         Subject subject = SecurityUtils.getSubject();
