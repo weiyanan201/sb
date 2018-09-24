@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wei.eduyang.mapper.TagMapper">
+
+    <resultMap id="Tag" type="com.wei.eduyang.domain.Tag">
+        <result property="id" column="id"/>
+        <result property="tagName" column="tag_name"/>
+        <result property="tagDesc" column="tag_desc"/>
+        <result property="tagParentId" column="tag_parent_id"/>
+
+    </resultMap>
+
+    <select id="getTag" parameterType="String" resultMap="Tag">
+		select * from t_tag where id=1
+	</select>
+
+    <select id="getAllTags" parameterType="String" resultMap="Tag">
+		select * from t_tag order by id
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wei.eduyang.mapper.PlanMapper">
+
+    <resultMap id="Plan" type="com.wei.eduyang.domain.Plan">
+        <result property="id" column="id"/>
+        <result property="planName" column="plan_name"/>
+        <result property="planPath" column="plan_path"/>
+        <result property="planDesc" column="plan_desc"/>
+        <result property="planCreateTime" column="plan_create_time"/>
+        <result property="planUpdateTime" column="plan_update_time"/>
+
+    </resultMap>
+
+    <select id="getPlan" parameterType="String" resultMap="Plan">
+		select * from t_plan where id=1
+	</select>
+
+    <select id="getAllPlan" parameterType="String" resultMap="Plan">
+		select * from t_plan order by id
+	</select>
+
+
+</mapper>

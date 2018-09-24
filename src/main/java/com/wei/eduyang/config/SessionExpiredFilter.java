@@ -39,7 +39,7 @@ public class SessionExpiredFilter extends AccessControlFilter {
             HttpServletResponse res = (HttpServletResponse) response;
             if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))){
                 res.setStatus(HttpStatus.UNAUTHORIZED.value());
-                res.setHeader("Location","/");
+                res.setHeader("Location","/login");
             }else{
                 //非ajax请求直接跳转
 //                request.getRequestDispatcher("/").forward(request, response);

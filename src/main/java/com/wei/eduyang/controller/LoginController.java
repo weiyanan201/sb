@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class LoginController {
@@ -93,7 +95,7 @@ public class LoginController {
         UserType.getName(user.getUserType());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("role",UserType.getName(user.getUserType()));
-        jsonObject.put("hasLogin",subject.isAuthenticated());
+        jsonObject.put("userName",user.getUserName());
 
         resultEntity.setData(jsonObject);
         resultEntity.setReturnCode(ResultEntity.SUCCESS);
@@ -118,5 +120,15 @@ public class LoginController {
     private void createException() throws Exception {
         int i = 1/0;
         System.out.println(i);
+    }
+
+    public static void main(String[] args) {
+        Pattern pattern = Pattern.compile("[^A-Za-z0-9//.//@_//-~#]+");
+        String sql = "aaa.aa";
+        Matcher matcher = pattern.matcher(sql);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        System.out.println("end");
     }
 }
