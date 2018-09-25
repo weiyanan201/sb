@@ -11,21 +11,28 @@ public class Plan {
     private Timestamp planCreateTime;
     private Timestamp planUpdateTime;
 
-    /**
-     * 非实例化
-     */
-    private List<Plan> childPlans;
+    private int tagCourse;
+    private int tagScene;
+    private int tagTheme;
+    private int tagAge;
+    private int tagSubject;
+
 
     public Plan(){
 
     }
 
-    public Plan(String planName, String planPath, String planDesc, Timestamp planCreateTime, Timestamp planUpdateTime) {
+    public Plan(String planName, String planPath, String planDesc, Timestamp planCreateTime, Timestamp planUpdateTime, int tagCourse, int tagScene, int tagTheme, int tagAge, int tagSubject) {
         this.planName = planName;
         this.planPath = planPath;
         this.planDesc = planDesc;
         this.planCreateTime = planCreateTime;
         this.planUpdateTime = planUpdateTime;
+        this.tagCourse = tagCourse;
+        this.tagScene = tagScene;
+        this.tagTheme = tagTheme;
+        this.tagAge = tagAge;
+        this.tagSubject = tagSubject;
     }
 
     public int getId() {
@@ -76,6 +83,46 @@ public class Plan {
         this.planUpdateTime = planUpdateTime;
     }
 
+    public int getTagCourse() {
+        return tagCourse;
+    }
+
+    public void setTagCourse(int tagCourse) {
+        this.tagCourse = tagCourse;
+    }
+
+    public int getTagScene() {
+        return tagScene;
+    }
+
+    public void setTagScene(int tagScene) {
+        this.tagScene = tagScene;
+    }
+
+    public int getTagTheme() {
+        return tagTheme;
+    }
+
+    public void setTagTheme(int tagTheme) {
+        this.tagTheme = tagTheme;
+    }
+
+    public int getTagAge() {
+        return tagAge;
+    }
+
+    public void setTagAge(int tagAge) {
+        this.tagAge = tagAge;
+    }
+
+    public int getTagSubject() {
+        return tagSubject;
+    }
+
+    public void setTagSubject(int tagSubject) {
+        this.tagSubject = tagSubject;
+    }
+
     @Override
     public String toString() {
         return "Plan{" +
@@ -85,6 +132,11 @@ public class Plan {
                 ", planDesc='" + planDesc + '\'' +
                 ", planCreateTime=" + planCreateTime +
                 ", planUpdateTime=" + planUpdateTime +
+                ", tagCourse=" + tagCourse +
+                ", tagScene=" + tagScene +
+                ", tagTheme=" + tagTheme +
+                ", tagAge=" + tagAge +
+                ", tagSubject=" + tagSubject +
                 '}';
     }
 }

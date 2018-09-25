@@ -10,6 +10,13 @@
         <result property="planCreateTime" column="plan_create_time"/>
         <result property="planUpdateTime" column="plan_update_time"/>
 
+        <result property="tagCourse" column="tag_course"/>
+        <result property="tagScene" column="tag_scene"/>
+        <result property="tagTheme" column="tag_theme"/>
+        <result property="tagAge" column="tag_age"/>
+        <result property="tagSubject" column="tag_subject"/>
+
+
     </resultMap>
 
     <select id="getPlan" parameterType="String" resultMap="Plan">
