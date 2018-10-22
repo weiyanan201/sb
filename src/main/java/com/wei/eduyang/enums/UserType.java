@@ -5,8 +5,8 @@ public enum UserType {
     ADMIN("ADMIN",1),
     USER("USER",2);
 
-    private String name;
-    private int code;
+    private String name ;
+    private int code ;
 
     private UserType(String name,int code){
         this.name = name;
