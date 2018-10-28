@@ -1,3 +1,8 @@
 spring:
   profiles:
     active: dev
+
+
+app:
+  uploadDir:
+    /Users/weiyanan/workspace/git/sb/src/main/resources/static

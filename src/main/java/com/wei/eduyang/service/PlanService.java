@@ -1,5 +1,7 @@
 package com.wei.eduyang.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wei.eduyang.bean.ResultEntity;
 import com.wei.eduyang.domain.Plan;
 import com.wei.eduyang.domain.Tag;
 import com.wei.eduyang.mapper.PlanMapper;
@@ -17,23 +19,33 @@ public class PlanService {
 
     @Autowired
     private PlanMapper planMapper;
-    @Autowired
-    private TagMapper tagMapper;
 
-    public List<Plan> getAllTags(){
+    public ResultEntity searchQuery(JSONObject jsonParam){
+        ResultEntity resultEntity = new ResultEntity();
 
-        List<Tag> tags = tagMapper.getAllTags();
-        Map<Integer,Tag> maps = Maps.newHashMap();
-        List result = Lists.newArrayList();
-        for(Tag tag : tags){
-            if (tag.getTagParentId()==-1){
-                maps.put(tag.getId(),tag);
-                tag.setChildTags(Lists.newArrayList());
-                result.add(tag);
-            }else{
-                maps.get(tag.getTagParentId()).getChildTags().add(tag);
-            }
-        }
-        return result;
+        Map paraMap = JSONObject.toJavaObject(jsonParam,Map.class);
+        List<Plan> list = planMapper.searchQuery(paraMap);
+
+        resultEntity.setData(list);
+        resultEntity.setReturnCode(ResultEntity.SUCCESS);
+
+        return resultEntity;
     }
+
+    public ResultEntity savePlan(JSONObject jsonParam){
+        ResultEntity resultEntity = new ResultEntity();
+        Plan plan = jsonParam.toJavaObject(Plan.class);
+        if (plan.getId()!=0){
+            //update
+            planMapper.updatePlan(plan);
+        }else{
+            //insert
+            planMapper.insertPlan(plan);
+        }
+
+
+        resultEntity.setReturnCode(ResultEntity.SUCCESS);
+        return resultEntity;
+    }
+
 }

@@ -26,17 +26,9 @@ public class EduYangApplicationTests {
 
 	@Test
 	public void contextLoads() {
+	    Plan plan = planMapper.getPlanByName("asdf222");
+	    System.out.println(plan);
 	}
 
-	@Test
-	public void userMapperTest(){
-        User user = userMapper.findUserByName("wei");
-        System.out.println(user);
-        Plan plan = planMapper.getPlan();
-        Tag tag = tagMapper.getTag();
-
-        System.out.println(plan);
-        System.out.println(tag);
-    }
 
 }
