@@ -102,33 +102,10 @@ public class LoginController {
         return resultEntity;
     }
 
-    @RequestMapping("/test")
-    public String test(int age) throws Exception {
-        logger.info("hello world ",age);
-        logger.error("hello error");
-        createException();
-        return "我是正常的";
-    }
-
     @ResponseBody
     @RequestMapping("/api/test")
     public String testAuth() {
         return "权限通过";
     }
 
-
-    private void createException() throws Exception {
-        int i = 1/0;
-        System.out.println(i);
-    }
-
-    public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("[^A-Za-z0-9//.//@_//-~#]+");
-        String sql = "aaa.aa";
-        Matcher matcher = pattern.matcher(sql);
-        if (matcher.find()){
-            System.out.println(matcher.group());
-        }
-        System.out.println("end");
-    }
 }

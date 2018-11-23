@@ -5,7 +5,6 @@ import com.wei.eduyang.domain.Plan;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileUtil {
@@ -14,14 +13,12 @@ public class FileUtil {
 
     public static void uploadFile(byte[] fileByte, String fileName) throws Exception{
 
-        String dir = fileName.substring(0,fileName.lastIndexOf(SEPARATOR));
-        System.out.println(dir);
-        File dirFile = new File(dir);
-        if(!dirFile.exists()){
-            dirFile.mkdirs();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            FileUtils.forceMkdirParent(file);
         }
 
-        FileUtils.writeByteArrayToFile(new File(fileName),fileByte);
+        FileUtils.writeByteArrayToFile(file,fileByte);
 
     }
 

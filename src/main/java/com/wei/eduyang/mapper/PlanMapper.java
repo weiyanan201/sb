@@ -10,11 +10,9 @@ public interface PlanMapper {
 
     Plan getPlanByName(@Param("planName")String planName );
 
-    List<Plan> getAllPlan();
-
     List<Plan> searchQuery(Map maps);
 
-    void insertPlan(Plan plan);
+    Plan insertPlan(Plan plan);
 
-    void updatePlan(Plan plan);
+    Plan updatePlan(Plan plan);
 }

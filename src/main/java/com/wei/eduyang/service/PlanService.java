@@ -6,6 +6,7 @@ import com.wei.eduyang.domain.Plan;
 import com.wei.eduyang.domain.Tag;
 import com.wei.eduyang.mapper.PlanMapper;
 import com.wei.eduyang.mapper.TagMapper;
+import com.wei.eduyang.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.testng.collections.Lists;
@@ -23,6 +24,7 @@ public class PlanService {
     public ResultEntity searchQuery(JSONObject jsonParam){
         ResultEntity resultEntity = new ResultEntity();
 
+        CommonUtil.convertPageSizeFromJson(jsonParam);
         Map paraMap = JSONObject.toJavaObject(jsonParam,Map.class);
         List<Plan> list = planMapper.searchQuery(paraMap);
 
@@ -37,14 +39,13 @@ public class PlanService {
         Plan plan = jsonParam.toJavaObject(Plan.class);
         if (plan.getId()!=0){
             //update
-            planMapper.updatePlan(plan);
+           plan = planMapper.updatePlan(plan);
         }else{
             //insert
-            planMapper.insertPlan(plan);
+           plan = planMapper.insertPlan(plan);
         }
-
-
         resultEntity.setReturnCode(ResultEntity.SUCCESS);
+        resultEntity.setData(plan);
         return resultEntity;
     }
 
