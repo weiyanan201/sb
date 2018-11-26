@@ -12,7 +12,9 @@ public interface PlanMapper {
 
     List<Plan> searchQuery(Map maps);
 
-    Plan insertPlan(Plan plan);
+    int searchQueryCount(Map maps);
 
-    Plan updatePlan(Plan plan);
+    void insertPlan(Plan plan);
+
+    void updatePlan(Plan plan);
 }

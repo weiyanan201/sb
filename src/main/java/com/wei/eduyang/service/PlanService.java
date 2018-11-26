@@ -27,26 +27,26 @@ public class PlanService {
         CommonUtil.convertPageSizeFromJson(jsonParam);
         Map paraMap = JSONObject.toJavaObject(jsonParam,Map.class);
         List<Plan> list = planMapper.searchQuery(paraMap);
-
-        resultEntity.setData(list);
+        int count = planMapper.searchQueryCount(paraMap);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("list",list);
+        resultJson.put("total",count);
+        resultEntity.setData(resultJson);
         resultEntity.setReturnCode(ResultEntity.SUCCESS);
 
         return resultEntity;
     }
 
     public ResultEntity savePlan(JSONObject jsonParam){
-        ResultEntity resultEntity = new ResultEntity();
         Plan plan = jsonParam.toJavaObject(Plan.class);
         if (plan.getId()!=0){
             //update
-           plan = planMapper.updatePlan(plan);
+           planMapper.updatePlan(plan);
         }else{
             //insert
-           plan = planMapper.insertPlan(plan);
+           planMapper.insertPlan(plan);
         }
-        resultEntity.setReturnCode(ResultEntity.SUCCESS);
-        resultEntity.setData(plan);
-        return resultEntity;
+        return new ResultEntity();
     }
 
 }
