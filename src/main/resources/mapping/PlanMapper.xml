@@ -19,6 +19,10 @@
 
     </resultMap>
 
+    <select id="getPlanById" parameterType="int" resultMap="Plan">
+		select * from t_plan where id=#{id}
+	</select>
+
     <select id="getPlanByName" parameterType="String" resultMap="Plan">
 		select * from t_plan where plan_name=#{planName}
 	</select>
@@ -26,6 +30,30 @@
     <select id="searchQuery" parameterType="map" resultMap="Plan">
         select * from t_plan where 1=1
 
+        <if test="courseValue != null and courseValue != '-1' ">
+            and tag_course = #{courseValue}
+        </if>
+        <if test="sceneValue != null and sceneValue != '-1' ">
+            and tag_scene = #{sceneValue}
+        </if>
+        <if test="themeValue != null and themeValue != '-1' ">
+            and tag_theme = #{themeValue}
+        </if>
+        <if test="ageValue != null and ageValue != '-1' ">
+            and tag_age = #{ageValue}
+        </if>
+        <if test="subjectValue != null and subjectValue != '-1' ">
+            and tag_subject = #{subjectValue}
+        </if>
+        <if test="searchValue != null and searchValue != '' ">
+            and plan_name like CONCAT(CONCAT('%',#{searchValue}),'%')
+        </if>
+        limit #{start},#{pageSize}
+
+    </select>
+
+    <select id="searchQueryCount" parameterType="map" resultType="int">
+        select count(1) from t_plan where 1=1
         <if test="courseValue != null and courseValue != '-1' ">
             and tag_course = #{courseValue}
         </if>
@@ -54,15 +82,17 @@
 
     <update id="updatePlan" parameterType="Plan">
         update t_plan
-          set plan_name=#{planName},
-              plan_path=#{planPath},
-              plan_desc=#{planDesc},
-              plan_update_time=now(),
-              tag_course=#{tagCourse},
-              tag_scene=#{tagScene},
-              tag_theme=#{tagTheme},
-              tag_age=#{tagAge},
-              tag_subject=#{tagSubject}
+        <trim prefix="set" suffixOverrides=",">
+            <if test="planName!=null">plan_name=#{planName},</if>
+            <if test="planPath!=null">plan_path=#{planPath},</if>
+            <if test="planDesc!=null">plan_desc=#{planDesc},</if>
+            <if test="tagCourse!=null">tag_course=#{tagCourse},</if>
+            <if test="tagScene!=null">tag_scene=#{tagScene},</if>
+            <if test="tagTheme!=null">tag_theme=#{tagTheme},</if>
+            <if test="tagAge!=null">tag_age=#{tagAge},</if>
+            <if test="tagSubject!=null">tag_subject=#{tagSubject},</if>
+            plan_update_time=now(),
+        </trim>
         where id=#{id}
     </update>
 

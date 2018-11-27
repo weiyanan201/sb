@@ -1,5 +1,6 @@
 package com.wei.eduyang.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.eduyang.bean.ResultEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @ControllerAdvice
 @ResponseBody
@@ -52,5 +57,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         resultEntity.setReturnMessage("登录已失效");
         return resultEntity;
     }
+
+//    @ExceptionHandler(value = MaxUploadSizeExceededException.class)
+//    public String test(HttpServletRequest request,HttpServletResponse response) throws IOException {
+//        System.out.println("xxx");
+//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//
+//
+//        System.out.println("######################### handleException capture this exception");
+//        return "错误信息";
+//    }
+
+
 
 }

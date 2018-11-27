@@ -7,6 +7,7 @@ import com.wei.eduyang.domain.Plan;
 import com.wei.eduyang.exception.CustomException;
 import com.wei.eduyang.mapper.PlanMapper;
 import com.wei.eduyang.service.PlanService;
+import com.wei.eduyang.util.ErrorMsg;
 import com.wei.eduyang.util.FileUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import org.testng.collections.Maps;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,17 +63,43 @@ public class PlanController {
 
     @PostMapping("savePlan")
     public ResultEntity savePlan(HttpServletRequest request,@RequestParam("planFile") MultipartFile[] planFiles,@RequestParam("planShow") MultipartFile[] showFiles) throws Exception {
+
         try {
-            String fileName = null;
-            String msg = "";
+            JSONObject paraJson = new JSONObject();
+            request.getParameterMap().keySet().forEach(i->{
+                paraJson.put(i,request.getParameter(i));
+            });
+            String planName = paraJson.getString("planName");
+            String planDir = UPLOAD_DIR+"/"+planName+"/";
+            String planShowDir = planDir+"show/";
 
             if (planFiles!=null && planFiles.length>0){
-                System.out.println(planFiles[0].getOriginalFilename());
+                MultipartFile planFile = planFiles[0];
+                String filePath = planDir + planFile.getOriginalFilename();
+                paraJson.put("planPath",filePath);
+                FileUtil.uploadFile(planFile.getBytes(), filePath);
             }
-            throw new Exception("xxxxx");
+            if (showFiles!=null && showFiles.length>0){
+                for(MultipartFile file : showFiles){
+                    FileUtil.uploadFile(file.getBytes(),planShowDir+file.getOriginalFilename());
+                }
+            }
+            planService.savePlan(paraJson);
         }catch (Exception e){
             logger.error(e);
-            throw e;
+            throw new CustomException(ErrorMsg.ADD_UPDATE_PLAN_FAILD);
+        }
+        return new ResultEntity();
+    }
+
+    @PostMapping("download")
+    public ResultEntity downloadFile(HttpServletResponse response,@RequestParam(value = "id") int id, @RequestParam(value = "planPath",required = false) String planPath){
+
+        System.out.println("xxxx");
+        try {
+            return planService.downLoadPlan(response,id);
+        } catch (IOException e) {
+            throw new CustomException("下载失败");
         }
 
     }

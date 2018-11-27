@@ -2,7 +2,9 @@ package com.wei.eduyang.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wei.eduyang.domain.Plan;
+import com.wei.eduyang.exception.CustomException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +25,9 @@ public class FileUtil {
     }
 
     public  static boolean exists(String path){
+        if (StringUtils.isBlank(path)){
+            throw new CustomException(ErrorMsg.FILE_STRING_BLANK);
+        }
         File file = new File(path);
         return file.exists();
     }

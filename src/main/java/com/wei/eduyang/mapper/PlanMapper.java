@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface PlanMapper {
 
+    Plan getPlanById(@Param("id")int id );
+
     Plan getPlanByName(@Param("planName")String planName );
 
     List<Plan> searchQuery(Map maps);

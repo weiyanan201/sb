@@ -3,15 +3,21 @@ package com.wei.eduyang.service;
 import com.alibaba.fastjson.JSONObject;
 import com.wei.eduyang.bean.ResultEntity;
 import com.wei.eduyang.domain.Plan;
-import com.wei.eduyang.domain.Tag;
+import com.wei.eduyang.exception.CustomException;
 import com.wei.eduyang.mapper.PlanMapper;
-import com.wei.eduyang.mapper.TagMapper;
 import com.wei.eduyang.util.CommonUtil;
+import com.wei.eduyang.util.ErrorMsg;
+import com.wei.eduyang.util.FileUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.testng.collections.Lists;
-import org.testng.collections.Maps;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +53,33 @@ public class PlanService {
            planMapper.insertPlan(plan);
         }
         return new ResultEntity();
+    }
+
+    public ResultEntity downLoadPlan(HttpServletResponse response, int id ) throws IOException {
+        ResultEntity resultEntity = new ResultEntity();
+        if (id==0){
+            throw new CustomException("");
+        }
+        Plan plan = planMapper.getPlanById(id);
+        if (plan==null){
+            throw new CustomException("");
+        }
+        String filePath = plan.getPlanPath();
+        if (!FileUtil.exists(filePath)){
+            throw new CustomException(ErrorMsg.FILE_NOT_EXIST);
+        }
+        File file = new File(filePath);
+        System.out.println(file.getName());
+        String fileName = file.getName();
+        response.setHeader("content-disposition", "attachment;filename=" +fileName);
+        response.setHeader("fileName",fileName);
+        response.setHeader("content-type","application/octet-stream");
+        InputStream is = FileUtils.openInputStream(file);
+        ServletOutputStream os = response.getOutputStream();
+        IOUtils.copy(is,os);
+        os.flush();
+        os.close();
+        return resultEntity;
     }
 
 }
