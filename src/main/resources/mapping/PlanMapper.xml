@@ -6,6 +6,7 @@
         <result property="id" column="id"/>
         <result property="planName" column="plan_name"/>
         <result property="planPath" column="plan_path"/>
+        <result property="planShowPath" column="plan_show_path"/>
         <result property="planDesc" column="plan_desc"/>
         <result property="planCreateTime" column="plan_create_time"/>
         <result property="planUpdateTime" column="plan_update_time"/>
@@ -48,6 +49,7 @@
         <if test="searchValue != null and searchValue != '' ">
             and plan_name like CONCAT(CONCAT('%',#{searchValue}),'%')
         </if>
+        order by plan_update_time desc
         limit #{start},#{pageSize}
 
     </select>
@@ -76,8 +78,8 @@
     </select>
 
     <insert id="insertPlan" parameterType="Plan" useGeneratedKeys="true" keyProperty="id">
-            insert into t_plan(plan_name, plan_path, plan_desc, plan_create_time,plan_update_time,tag_course,tag_scene,tag_theme,tag_age,tag_subject)
-            values(#{planName}, #{planPath}, #{planDesc}, now(),now(),#{tagCourse},#{tagScene},#{tagTheme},#{tagAge},#{tagSubject})
+            insert into t_plan(plan_name, plan_path,plan_show_path, plan_desc, plan_create_time,plan_update_time,tag_course,tag_scene,tag_theme,tag_age,tag_subject)
+            values(#{planName}, #{planPath},#{planShowPath}, #{planDesc}, now(),now(),#{tagCourse},#{tagScene},#{tagTheme},#{tagAge},#{tagSubject})
     </insert>
 
     <update id="updatePlan" parameterType="Plan">
@@ -85,6 +87,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="planName!=null">plan_name=#{planName},</if>
             <if test="planPath!=null">plan_path=#{planPath},</if>
+            <if test="planShowPath!=null">plan_show_path=#{planShowPath},</if>
             <if test="planDesc!=null">plan_desc=#{planDesc},</if>
             <if test="tagCourse!=null">tag_course=#{tagCourse},</if>
             <if test="tagScene!=null">tag_scene=#{tagScene},</if>
@@ -95,5 +98,9 @@
         </trim>
         where id=#{id}
     </update>
+
+    <delete id="deletePlan" parameterType="Integer">
+        delete from t_plan where id = #{id}
+    </delete>
 
 </mapper>

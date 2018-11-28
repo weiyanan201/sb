@@ -39,7 +39,6 @@ public class FileUtil {
     public static void deleteDir(String path) throws IOException {
         if (exists(path)){
             FileUtils.deleteDirectory(new File(path));
-
         }
     }
 

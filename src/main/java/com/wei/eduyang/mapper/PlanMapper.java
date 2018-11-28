@@ -19,4 +19,6 @@ public interface PlanMapper {
     void insertPlan(Plan plan);
 
     void updatePlan(Plan plan);
+
+    void deletePlan(@Param("id") int id);
 }

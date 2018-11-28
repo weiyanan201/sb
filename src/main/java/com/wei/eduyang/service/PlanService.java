@@ -10,6 +10,7 @@ import com.wei.eduyang.util.ErrorMsg;
 import com.wei.eduyang.util.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,22 @@ public class PlanService {
         os.flush();
         os.close();
         return resultEntity;
+    }
+
+    public ResultEntity deletePlan(int id) throws IOException {
+        Plan plan = planMapper.getPlanById(id);
+        //删除数据库
+        planMapper.deletePlan(id);
+        //删除文件
+        String planPath = plan.getPlanPath();
+        String planShowPath = plan.getPlanShowPath();
+        if (!StringUtils.isBlank(planPath)){
+            FileUtil.deleteFile(planPath);
+        }
+        if (!StringUtils.isBlank(planShowPath)){
+            FileUtil.deleteDir(planShowPath);
+        }
+        return new ResultEntity();
     }
 
 }

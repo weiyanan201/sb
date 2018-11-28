@@ -1,12 +1,12 @@
 package com.wei.eduyang.domain;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 public class Plan {
     private int id;
     private String planName;
     private String planPath;
+    private String planShowPath;
     private String planDesc;
     private Timestamp planCreateTime;
     private Timestamp planUpdateTime;
@@ -18,13 +18,25 @@ public class Plan {
     private int tagSubject;
 
 
+
+
+    public String getPlanShowPath() {
+        return planShowPath;
+    }
+
+    public void setPlanShowPath(String planShowPath) {
+        this.planShowPath = planShowPath;
+    }
+
     public Plan(){
 
     }
 
-    public Plan(String planName, String planPath, String planDesc, Timestamp planCreateTime, Timestamp planUpdateTime, int tagCourse, int tagScene, int tagTheme, int tagAge, int tagSubject) {
+    public Plan(int id, String planName, String planPath, String planShowPath, String planDesc, Timestamp planCreateTime, Timestamp planUpdateTime, int tagCourse, int tagScene, int tagTheme, int tagAge, int tagSubject) {
+        this.id = id;
         this.planName = planName;
         this.planPath = planPath;
+        this.planShowPath = planShowPath;
         this.planDesc = planDesc;
         this.planCreateTime = planCreateTime;
         this.planUpdateTime = planUpdateTime;
@@ -123,12 +135,14 @@ public class Plan {
         this.tagSubject = tagSubject;
     }
 
+
     @Override
     public String toString() {
         return "Plan{" +
                 "id=" + id +
                 ", planName='" + planName + '\'' +
                 ", planPath='" + planPath + '\'' +
+                ", planShowPath='" + planShowPath + '\'' +
                 ", planDesc='" + planDesc + '\'' +
                 ", planCreateTime=" + planCreateTime +
                 ", planUpdateTime=" + planUpdateTime +
