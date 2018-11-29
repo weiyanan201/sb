@@ -1,6 +1,8 @@
 {
-  "index.js": "static/js/index.965598c2.js",
-  "index.js.map": "static/js/index.965598c2.js.map",
-  "login.js": "static/js/login.bd93d303.js",
-  "login.js.map": "static/js/login.bd93d303.js.map"
+  "detail.js": "static/js/detail.004e77ae.js",
+  "detail.js.map": "static/js/detail.004e77ae.js.map",
+  "index.js": "static/js/index.5739f298.js",
+  "index.js.map": "static/js/index.5739f298.js.map",
+  "login.js": "static/js/login.1b13c7d0.js",
+  "login.js.map": "static/js/login.1b13c7d0.js.map"
 }

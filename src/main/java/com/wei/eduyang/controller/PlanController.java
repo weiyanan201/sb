@@ -48,7 +48,7 @@ public class PlanController {
                 paraJson.put(i,request.getParameter(i));
             });
             String planName = paraJson.getString("planName");
-            String planDir = UPLOAD_DIR+"/"+planName+"/";
+            String planDir = UPLOAD_DIR+planName+"/";
             String planShowDir = planDir+"show/";
 
             if (planFiles!=null && planFiles.length>0){
@@ -87,5 +87,10 @@ public class PlanController {
         }catch (Exception e){
             throw new CustomException("删除失败!");
         }
+    }
+
+    @GetMapping("getShowPath")
+    public ResultEntity getShowPath(int id){
+        return planService.getShowPath(id);
     }
 }

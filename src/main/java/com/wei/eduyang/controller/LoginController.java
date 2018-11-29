@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class LoginController {
@@ -50,6 +48,20 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()){
             return "redirect:/";
+        }else{
+            return "redirect:/login";
+        }
+    }
+
+    /**
+     * 登录页面
+     * @return
+     */
+    @RequestMapping("/detail")
+    public String detailPage(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()){
+            return "detail";
         }else{
             return "login";
         }

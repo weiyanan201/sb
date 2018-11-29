@@ -99,4 +99,18 @@ public class PlanService {
         return new ResultEntity();
     }
 
+    public ResultEntity getShowPath(int id){
+        Plan plan = planMapper.getPlanById(id);
+        if (plan==null){
+            throw new CustomException("该教案不存在!");
+        }
+        String showPath = plan.getPlanShowPath();
+        if (StringUtils.isBlank(showPath)){
+            throw new CustomException("教案文件不存在");
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("showPath",showPath);
+        return new ResultEntity(ResultEntity.SUCCESS,null,jsonObject);
+    }
+
 }
