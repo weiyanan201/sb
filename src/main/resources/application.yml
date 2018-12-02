@@ -5,4 +5,6 @@ spring:
 
 app:
   uploadDir:
-    /Users/weiyanan/workspace/git/sb/src/main/resources/static
+    /Users/weiyanan/workspace/yang/upload/
+  uploadMaxSize:  31457280
+  uploadMaxSizeTip: 30M

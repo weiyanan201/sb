@@ -1,6 +1,7 @@
 package com.wei.eduyang.config;
 
 import com.wei.eduyang.domain.User;
+import com.wei.eduyang.enums.UserType;
 import com.wei.eduyang.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -24,7 +25,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User userInfo = (User) principals.getPrimaryPrincipal();
-        authorizationInfo.addRole(userInfo.getUserType()+"");
+        authorizationInfo.addRole(UserType.getName(userInfo.getUserType()));
         return authorizationInfo;
     }
 
@@ -40,9 +41,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (userInfo == null) {
             return null;
         }
-//        if (userInfo.getState() == 1) { //账户冻结
-//            throw new LockedAccountException();
-//        }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户名
                 userInfo.getPassword(), //密码

@@ -2,6 +2,8 @@ package com.wei.eduyang.util;
 
 public class Constants {
 
+    public static final String RESOURCE_DIR = "/data/";
+
 
     public static final String PAGE = "page";
     public static final String CURRENT = "current";

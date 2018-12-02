@@ -2,7 +2,6 @@ package com.wei.eduyang;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wei.eduyang.mapper.PlanMapper;
-import com.wei.eduyang.mapper.TagMapper;
 import com.wei.eduyang.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +24,6 @@ public class EduYangApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private PlanMapper planMapper;
-    @Autowired
-    private TagMapper tagMapper;
 
     @Autowired
     private RestTemplate restTemplate;

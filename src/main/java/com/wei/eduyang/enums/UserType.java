@@ -8,6 +8,9 @@ public enum UserType {
     private String name ;
     private int code ;
 
+    public final static String ADMIN_STR = "ADMIN";
+    public final static String USER_STR = "USER";
+
     private UserType(String name,int code){
         this.name = name;
         this.code = code;

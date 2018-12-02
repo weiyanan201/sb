@@ -1,6 +1,8 @@
 package com.wei.eduyang.exception;
 
 import com.wei.eduyang.bean.ResultEntity;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -59,6 +61,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error("error",ex);
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResultEntity(ResultEntity.ERROR,ex.getMessage(),null);
+    }
+
+    /**
+     * shiro 权限失败重定向登录页面
+     * @return
+     */
+    @ExceptionHandler(value = {UnauthenticatedException.class,UnauthorizedException.class})
+    public ResultEntity unauthenticatedExceptionHandle (HttpServletRequest request,HttpServletResponse response) throws IOException {
+        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setHeader("Location","/");
+        }else{
+            response.sendRedirect("/login");
+        }
+        return new ResultEntity(ResultEntity.ERROR,"没有权限进行操作",null);
     }
 
 

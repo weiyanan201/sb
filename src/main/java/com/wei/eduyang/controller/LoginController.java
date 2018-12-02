@@ -9,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class LoginController {
@@ -27,10 +30,9 @@ public class LoginController {
 
     /**
      * 首页
-     * @return
      */
     @RequestMapping("/")
-    public String home(){
+    public String home(HttpServletResponse response) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()){
             return "index";
@@ -41,21 +43,19 @@ public class LoginController {
 
     /**
      * 登录页面
-     * @return
      */
     @RequestMapping("/login")
-    public String page1(){
+    public String login(){
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()){
             return "redirect:/";
         }else{
-            return "redirect:/login";
+            return "login.html";
         }
     }
 
     /**
-     * 登录页面
-     * @return
+     * 详情页面
      */
     @RequestMapping("/detail")
     public String detailPage(){
@@ -63,20 +63,21 @@ public class LoginController {
         if (subject.isAuthenticated()){
             return "detail";
         }else{
-            return "login";
+            return "redirect:/login.html";
         }
+    }
+
+    @RequestMapping(value = "error2")
+    public String errorPage(){
+        return "error";
     }
 
     /**
      * 登录验证
-     * @param request
-     * @param userName
-     * @param password
-     * @return
      */
-    @PostMapping("login")
+    @PostMapping("checkLogin")
     @ResponseBody
-    public ResultEntity login (HttpServletRequest request,String userName,String password){
+    public ResultEntity checkLogin (HttpServletRequest request,String userName,String password){
         ResultEntity resultEntity = new ResultEntity();
         JSONObject jsonObject = new JSONObject();
         Subject subject = SecurityUtils.getSubject();
@@ -114,10 +115,11 @@ public class LoginController {
         return resultEntity;
     }
 
+    @GetMapping("/login2")
     @ResponseBody
-    @RequestMapping("/api/test")
-    public String testAuth() {
-        return "权限通过";
+    @RequiresRoles(value = {UserType.ADMIN_STR})
+    public String test(HttpServletResponse response) {
+        return "aaaa";
     }
 
 }

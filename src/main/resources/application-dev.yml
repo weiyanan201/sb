@@ -3,11 +3,15 @@ spring:
     template-loader-path: classpath:/static/
     cache: false
     suffix: .html
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/education
+    url: jdbc:mysql://127.0.0.1:3306/mydb
     username: root
-    password: password
+    password: weiyanan
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -31,8 +35,8 @@ mybatis:
 server:
   port: 8081
   session:
-    timeout: 30000
+    timeout: 30000000
 logging:
-  path: D://logs/service.log
+  path: /Users/weiyanan/workspace/yang/log
 
 
