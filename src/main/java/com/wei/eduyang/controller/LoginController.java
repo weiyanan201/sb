@@ -67,11 +67,6 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "error2")
-    public String errorPage(){
-        return "error";
-    }
-
     /**
      * 登录验证
      */

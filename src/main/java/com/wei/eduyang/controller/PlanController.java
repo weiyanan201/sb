@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wei.eduyang.bean.ResultEntity;
 import com.wei.eduyang.enums.UserType;
 import com.wei.eduyang.exception.CustomException;
-import com.wei.eduyang.mapper.PlanMapper;
 import com.wei.eduyang.service.PlanService;
 import com.wei.eduyang.util.Constants;
 import com.wei.eduyang.util.ErrorMsg;
@@ -12,8 +11,8 @@ import com.wei.eduyang.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static org.apache.commons.lang3.StringUtils.split;
 
 @RestController
 @RequestMapping("/plan")
@@ -77,7 +74,6 @@ public class PlanController {
                 if (ss!=null&&ss.length==2){
                     paraJson.put("planShowPath",relateShowDir+"/"+ss[0]+"/index.html");
                 }
-                //TODO windows
                 for(MultipartFile file : pptShow){
                     FileUtil.uploadFile(file.getBytes(),planShowDir+file.getOriginalFilename());
                 }
@@ -104,6 +100,11 @@ public class PlanController {
         } catch (IOException e) {
             throw new CustomException("下载失败");
         }
+    }
+
+    @PostMapping("getFilePath")
+    public ResultEntity downloadFilePath(@RequestParam(value = "id") int id){
+        return planService.getDownloadFilePath(id);
     }
 
     @PostMapping("delete")

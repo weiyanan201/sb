@@ -1,10 +1,5 @@
 spring:
   profiles:
-    active: dev
+    active: prod
 
 
-app:
-  uploadDir:
-    /Users/weiyanan/workspace/yang/upload/
-  uploadMaxSize:  31457280
-  uploadMaxSizeTip: 30M

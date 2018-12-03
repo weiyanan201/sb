@@ -6,12 +6,14 @@ import com.wei.eduyang.domain.Plan;
 import com.wei.eduyang.exception.CustomException;
 import com.wei.eduyang.mapper.PlanMapper;
 import com.wei.eduyang.util.CommonUtil;
+import com.wei.eduyang.util.Constants;
 import com.wei.eduyang.util.ErrorMsg;
 import com.wei.eduyang.util.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
@@ -28,7 +30,10 @@ public class PlanService {
     @Autowired
     private PlanMapper planMapper;
 
-    public ResultEntity searchQuery(JSONObject jsonParam){
+    @Value("${app.uploadDir}")
+    private String uploadDir ;
+
+    public ResultEntity searchQuery( JSONObject jsonParam){
         ResultEntity resultEntity = new ResultEntity();
 
         CommonUtil.convertPageSizeFromJson(jsonParam);
@@ -66,20 +71,47 @@ public class PlanService {
             throw new CustomException("");
         }
         String filePath = plan.getPlanPath();
+        //将相对路径替换成绝对路径
+        filePath = StringUtils.replace(filePath,Constants.RESOURCE_DIR,uploadDir);
         if (!FileUtil.exists(filePath)){
             throw new CustomException(ErrorMsg.FILE_NOT_EXIST);
         }
         File file = new File(filePath);
-        System.out.println(file.getName());
         String fileName = file.getName();
-        response.setHeader("content-disposition", "attachment;filename=" +fileName);
-        response.setHeader("fileName",fileName);
+//        response.setCharacterEncoding("UTF-8");
+        response.setHeader("content-disposition", "attachment;filename=" + java.net.URLEncoder.encode(fileName, "UTF-8"));
+        response.setHeader("fileName",java.net.URLEncoder.encode(fileName, "UTF-8"));
         response.setHeader("content-type","application/octet-stream");
         InputStream is = FileUtils.openInputStream(file);
         ServletOutputStream os = response.getOutputStream();
         IOUtils.copy(is,os);
         os.flush();
         os.close();
+        return resultEntity;
+    }
+
+    public ResultEntity getDownloadFilePath(int id){
+        if (id==0){
+            throw new CustomException("");
+        }
+        Plan plan = planMapper.getPlanById(id);
+        if (plan==null){
+            throw new CustomException("");
+        }
+        String filePath = plan.getPlanPath();
+        //将相对路径替换成绝对路径
+        filePath = StringUtils.replace(filePath,Constants.RESOURCE_DIR,uploadDir);
+        if (!FileUtil.exists(filePath)){
+            throw new CustomException(ErrorMsg.FILE_NOT_EXIST);
+        }
+        File file  = new File(filePath);
+
+        ResultEntity resultEntity = new ResultEntity();
+        //返回资源相对路径
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("fileName",file.getName());
+        jsonObject.put("path",plan.getPlanPath());
+        resultEntity.setData(jsonObject);
         return resultEntity;
     }
 
