@@ -1,17 +1,20 @@
 spring:
+  aop:
+    proxy-target-class: false
   freemarker:
     template-loader-path: classpath:/static/
     cache: false
     suffix: .html
+  resources:  classpath:/static/,file:D://yang/upload/
   servlet:
     multipart:
-      max-file-size: -1
+      max-file-size:  -1
       max-request-size: -1
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/mydb
+    url: jdbc:mysql://127.0.0.1:3306/education
     username: root
-    password: weiyanan
+    password: password
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -35,8 +38,18 @@ mybatis:
 server:
   port: 8081
   session:
-    timeout: 30000000
+    ###shiroConfig中配置  1天  ms
+    timeout: 86400000
+  ###开启压缩gzip
+  compression:
+      enabled: true
+      mime-types: text/html,application/javascript,application/json
 logging:
-  path: /Users/weiyanan/workspace/yang/log
+  path: D://logs/service.log
 
+app:
+  uploadDir:
+    D://yang/upload/
+  uploadMaxSizeTip: 10M
+  uploadMaxSize:  10485760
 

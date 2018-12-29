@@ -36,6 +36,9 @@ server:
   port: 8081
   session:
     timeout: 30000000
+  compression:
+      enabled: true
+      mime-types: text/html,application/javascript,application/json
 logging:
   path: /Users/weiyanan/workspace/yang/log
 
