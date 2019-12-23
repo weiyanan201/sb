@@ -52,7 +52,7 @@ public class EduYangApplicationTests {
         map.add("encode",true+"");
         map.add("method","decode");
         map.add("timestamp","1541057934");
-        map.add("sign","5f0f8baecf287d92e3e3b782e563a14d");
+        map.add("sign","5f0f8baecf287d92e3e3b782e563a14d22");
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
